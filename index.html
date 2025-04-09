@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="style.css" />
   <title>Student Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -13,7 +13,6 @@
       padding: 0;
     }
 
-    /* Website announcement bar */
     .top-announcement {
       background-color: #007bff;
       color: white;
@@ -89,6 +88,7 @@
       padding: 1.5rem;
       border-radius: 16px;
       box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+      margin-top: 3rem;
     }
 
     .announcement {
@@ -108,7 +108,6 @@
       font-size: 0.9rem;
     }
 
-    /* Blue underline animation */
     .section-title {
       position: relative;
       display: inline-block;
@@ -141,6 +140,29 @@
       }
     }
 
+    .rewards-button-container {
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .rewards-button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 12px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .rewards-button:hover {
+      background-color: #0056b3;
+    }
+
     @media (max-width: 600px) {
       .dashboard {
         padding: 1rem;
@@ -151,7 +173,7 @@
 <body>
 
   <div class="top-announcement">
-    🚨 Website Announcement: Grade system UI doesnt fully support mobile, we recommend to use any laptop/pc's for better experience
+    🚨 Website Announcement: Grade system UI doesn't fully support mobile, we recommend using a laptop/PC for the best experience.
   </div>
 
   <nav>
@@ -175,6 +197,10 @@
         <h2>📊 Grades</h2>
         <p>Track your academic performance in real-time.</p>
       </div>
+    </div>
+
+    <div class="rewards-button-container">
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSct5GhiLP-WIisuoDimanDjWs4QoD2zVf0dj6XosWJxRdNv4w/viewform?usp=preview" class="rewards-button">🎁 View Rewards</a>
     </div>
 
     <div class="announcement-section">
