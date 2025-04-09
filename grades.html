@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Grades</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    .grades-wrapper {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    .grades-wrapper h1 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      font-size: 2rem;
+      color: #333;
+    }
+
+    .grade-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .grade-form select,
+    .grade-form input {
+      padding: 0.8rem 1rem;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      width: 100%;
+    }
+
+    .grade-form button {
+      padding: 0.8rem;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-weight: bold;
+      font-size: 1rem;
+      transition: background-color 0.3s;
+    }
+
+    .grade-form button:hover {
+      background-color: #0056b3;
+    }
+
+    canvas {
+      max-width: 100%;
+    }
+
+    .back-btn {
+      display: inline-block;
+      margin-bottom: 1rem;
+      color: #007bff;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .back-btn:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+      .grades-wrapper {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="nav-item">Dashboard</a>
+    <a href="news.html" class="nav-item">News</a>
+  </nav>
+
+  <div class="grades-wrapper">
+    <a href="index.html" class="back-btn">← Back to Dashboard</a>
+    <h1>Track Your Grades</h1>
+
+    <div class="grade-form">
+      <select id="subjectSelect">
+        <option value="" disabled selected>Select Subject</option>
+        <option value="Math">Math</option>
+        <option value="Science">Science</option>
+        <option value="English">English</option>
+        <option value="B.Indo">B.Indo</option>
+      </select>
+
+      <input type="number" id="scoreInput" placeholder="Enter Score (e.g. 95)" min="0" max="100" />
+
+      <button onclick="addGrade()">Submit</button>
+    </div>
+
+    <canvas id="gradeChart" height="100"></canvas>
+  </div>
+
+  <script>
+    const ctx = document.getElementById('gradeChart').getContext('2d');
+
+    // Load from localStorage or initialize
+    let savedGrades = JSON.parse(localStorage.getItem('gradesData')) || { labels: [], data: [] };
+
+    const chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: savedGrades.labels,
+        datasets: [{
+          label: 'Score',
+          data: savedGrades.data,
+          fill: false,
+          borderColor: '#007bff',
+          tension: 0.3,
+          pointBackgroundColor: '#007bff',
+          pointRadius: 6,
+          pointHoverRadius: 8,
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 100
+          }
+        }
+      }
+    });
+
+    function addGrade() {
+      const subject = document.getElementById('subjectSelect').value;
+      const score = parseInt(document.getElementById('scoreInput').value);
+
+      if (!subject || isNaN(score) || score < 0 || score > 100) {
+        alert("Please select a subject and enter a valid score between 0 and 100.");
+        return;
+      }
+
+      const label = subject + " " + (savedGrades.labels.filter(l => l.includes(subject)).length + 1);
+      savedGrades.labels.push(label);
+      savedGrades.data.push(score);
+
+      // Save to localStorage
+      localStorage.setItem('gradesData', JSON.stringify(savedGrades));
+
+      chart.data.labels = savedGrades.labels;
+      chart.data.datasets[0].data = savedGrades.data;
+      chart.update();
+
+      document.getElementById('subjectSelect').value = "";
+      document.getElementById('scoreInput').value = "";
+    }
+  </script>
+</body>
+</html>
